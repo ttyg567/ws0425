@@ -1,5 +1,96 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!--High Chart Library-->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<script>
+    let container1 = {
+        init:function(){
+            this.getdata();
+        },
+        getdata: function(){
+            $.ajax({
+                url:'/container1',
+                success:function(result){
+                    container1.display(result);
+                }
+            })
+        },
+        display: function(result){
+            Highcharts.chart('container1', {
+                chart: {
+                    type: 'column',
+                    options3d: {
+                        enabled: true,
+                        alpha: 10,
+                        beta: 25,
+                        depth: 70
+                    }
+                },
+                title: {
+                    text: 'WS0425 CHART INSERT TEST',
+                    align: 'left'
+                },
+                plotOptions: {
+                    column: {
+                        depth: 25
+                    }
+                },
+                xAxis: {
+                    categories: ['1', '2', '3', '4', '5', '6', '7',
+                        '8', '9', '10', '11', '12'],
+                    labels: {
+                        skew3d: true,
+                        style: {
+                            fontSize: '16px'
+                        }
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'NOK (million)',
+                        margin: 20
+                    }
+                },
+                tooltip: {
+                    valueSuffix: ' MNOK'
+                },
+                series: [{
+                    name: 'Total imports',
+                    data: result
+                }]
+            });
+
+
+        }};
+    $(function(){
+        container1.init();
+    })
+
+    let container2 = {
+        init:function(){
+            this.getdata();
+        },
+        getdata: function(){
+            $.ajax({
+                url:'/container2',
+                success:function(result){
+                    container1.display(result);
+                }
+            })
+        },
+        display: function(result){
+
+        }
+    }
+    $(function(){
+        container2.init();
+    })
+</script>
 
 <!-- Main Content -->
 <div id="content">
@@ -333,9 +424,7 @@
                     </div>
                     <!-- Card Body -->
                     <div class="card-body">
-                        <div class="chart-area">
-                            <canvas id="myAreaChart"></canvas>
-                        </div>
+                        <div id="container1"></div>
                     </div>
                 </div>
             </div>
@@ -365,19 +454,9 @@
                     <!-- Card Body -->
                     <div class="card-body">
                         <div class="chart-pie pt-4 pb-2">
-                            <canvas id="myPieChart"></canvas>
+                            <div id="container2"></div>
                         </div>
-                        <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Direct
-                                        </span>
-                            <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Social
-                                        </span>
-                            <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
-                                        </span>
-                        </div>
+
                     </div>
                 </div>
             </div>
